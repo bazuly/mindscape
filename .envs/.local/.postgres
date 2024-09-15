@@ -1,0 +1,7 @@
+# PostgreSQL
+# ------------------------------------------------------------------------------
+POSTGRES_HOST=postgres
+POSTGRES_PORT=5432
+POSTGRES_DB=dream
+POSTGRES_USER=mdZIKynQypPAsMyHjFithiMBmHGMmobJ
+POSTGRES_PASSWORD=nuLkN1w1Rwtazf6UpeugV6VAJs9l2fld0KgSdb4rabw7JdpEbEDWC2kpnfRYG7D8
