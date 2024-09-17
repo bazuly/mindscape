@@ -80,6 +80,7 @@ THIRD_PARTY_APPS = [
     "django_celery_beat",
     'ckeditor',
     'ckeditor_uploader',
+    'rest_framework',
 
 ]
 
@@ -315,8 +316,6 @@ SOCIALACCOUNT_FORMS = {"signup": "dream.users.forms.UserSocialSignupForm"}
 
 # CKEDITOR_CONFIG
 # ------------------------------------------------------------------------------
-
-
 CKEDITOR_CONFIGS = {
     'default': {
         'toolbar': 'full',
@@ -330,3 +329,13 @@ CKEDITOR_CONFIGS = {
 }
 
 CKEDITOR_UPLOAD_PATH = "uploads_ckeditor/"
+
+# Django_rest_framework config
+# ------------------------------------------------------------------------------
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ]
+}
