@@ -19,12 +19,9 @@ urlpatterns = [
     # User management
     path("users/", include("dream.users.urls", namespace="users")),
     path("accounts/", include("allauth.urls")),
-    # Your stuff: custom urls includes go here
-    # ...
-    # Media files
+    path('ckeditor/', include('ckeditor_uploader.urls')),
     *static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT),
 ]
-
 
 if settings.DEBUG:
     # This allows the error pages to be debugged during development, just visit

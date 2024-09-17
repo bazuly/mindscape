@@ -78,11 +78,15 @@ THIRD_PARTY_APPS = [
     "allauth.mfa",
     "allauth.socialaccount",
     "django_celery_beat",
+    'ckeditor',
+    'ckeditor_uploader',
+
 ]
 
 LOCAL_APPS = [
     "dream.users",
-    # Your stuff: custom apps go here
+    "dream.content_app",
+
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -309,6 +313,20 @@ SOCIALACCOUNT_ADAPTER = "dream.users.adapters.SocialAccountAdapter"
 # https://docs.allauth.org/en/latest/socialaccount/configuration.html
 SOCIALACCOUNT_FORMS = {"signup": "dream.users.forms.UserSocialSignupForm"}
 
-
-# Your stuff...
+# CKEDITOR_CONFIG
 # ------------------------------------------------------------------------------
+
+
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': 'full',
+        'extraPlugins': ','.join([
+            'uploadimage',
+            'html5video',  # сторонний модуль
+        ]),
+        'height': 300,
+        'width': 1200
+    }
+}
+
+CKEDITOR_UPLOAD_PATH = "uploads_ckeditor/"
