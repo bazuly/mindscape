@@ -4,6 +4,7 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include
 from django.urls import path
+from django.urls import re_path
 from django.views import defaults as default_views
 from django.views.generic import TemplateView
 
@@ -22,7 +23,11 @@ urlpatterns = [
     path('ckeditor/', include('ckeditor_uploader.urls')),
     *static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT),
     # path("api/", include("router.urls")),
-    path('api-auth/', include('rest_framework.urls'))
+    path('api-auth/', include('rest_framework.urls')),
+
+    re_path('^social/', include('social_django.urls', namespace='social')),
+    re_path(r'^auth/', include('drf_social_oauth2.urls', namespace='drf')),
+
 ]
 
 if settings.DEBUG:

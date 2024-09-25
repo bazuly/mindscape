@@ -102,12 +102,15 @@ MIGRATION_MODULES = {"sites": "dream.contrib.sites.migrations"}
 # https://docs.djangoproject.com/en/dev/ref/settings/#authentication-backends
 AUTHENTICATION_BACKENDS = [
     "django.contrib.auth.backends.ModelBackend",
-    "allauth.account.auth_backends.AuthenticationBackend",
+    'social_core.backends.telegram.TelegramAuth',
+    'drf_social_oauth2.backends.DjangoOAuth2',
+    'django.contrib.auth.backends.ModelBackend',
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#auth-user-model
 AUTH_USER_MODEL = "users.User"
 # https://docs.djangoproject.com/en/dev/ref/settings/#login-redirect-url
 LOGIN_REDIRECT_URL = "users:redirect"
+SOCIAL_AUTH_TELEGRAM_BOT_TOKEN = "7630334868:AAF8XzFj1JEOPP3kiWB8KSvPuRNK9YyzVVM"
 # https://docs.djangoproject.com/en/dev/ref/settings/#login-url
 LOGIN_URL = "account_login"
 
@@ -145,6 +148,8 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "allauth.account.middleware.AccountMiddleware",
+
+
 ]
 
 # STATIC
@@ -191,6 +196,10 @@ TEMPLATES = [
                 "django.template.context_processors.tz",
                 "django.contrib.messages.context_processors.messages",
                 "dream.users.context_processors.allauth_settings",
+
+                # telegram auth db save
+                "social_django.context_processors.backends",
+                "social_django.context_processors.login_redirect",
             ],
         },
     },
@@ -337,5 +346,14 @@ REST_FRAMEWORK = {
     # or allow read-only access for unauthenticated users.
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
-    ]
+    ],
+    # additional setting Telegram auth for DRF
+    # "DEFAULT_AUTHENTICATION_CLASSES": [
+    #     "rest_framework.authentication.SessionAuthentication",
+    #     "rest_framework.authentication.BasicAuthentication",
+    #     "social_core.backends.telegram.TelegramAuth",
+    #     "drf_social_oauth2.backends.DjangoOAuth2",
+    # ]
 }
+
+SECURE_CROSS_ORIGIN_OPENER_POLICY = "same-origin-allow-popups"

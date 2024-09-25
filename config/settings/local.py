@@ -14,7 +14,9 @@ SECRET_KEY = env(
     default="tbFSkEuqaAwZyuIMnvtRSaq0oPZKgNAGULvDk7EvkB4RZW1GLd3mneXWdlRxnaxw",
 )
 # https://docs.djangoproject.com/en/dev/ref/settings/#allowed-hosts
-ALLOWED_HOSTS = ["localhost", "0.0.0.0", "127.0.0.1", '8b17-95-24-234-148.ngrok-free.app']
+ALLOWED_HOSTS = [
+    "*"
+]
 
 # CACHES
 # ------------------------------------------------------------------------------
@@ -38,12 +40,21 @@ EMAIL_BACKEND = env(
 # http://whitenoise.evans.io/en/latest/django.html#using-whitenoise-in-development
 INSTALLED_APPS = ["whitenoise.runserver_nostatic", *INSTALLED_APPS]
 
-# django-debug-toolbar
-# ------------------------------------------------------------------------------
-# https://django-debug-toolbar.readthedocs.io/en/latest/installation.html#prerequisites
-INSTALLED_APPS += ["debug_toolbar"]
-# https://django-debug-toolbar.readthedocs.io/en/latest/installation.html#middleware
-MIDDLEWARE += ["debug_toolbar.middleware.DebugToolbarMiddleware"]
+# additional
+INSTALLED_APPS += [
+    "debug_toolbar",
+    "oauth2_provider",
+    "social_django",
+    "drf_social_oauth2"
+]
+
+
+MIDDLEWARE += [
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
+
+
+
+]
 # https://django-debug-toolbar.readthedocs.io/en/latest/configuration.html#debug-toolbar-config
 DEBUG_TOOLBAR_CONFIG = {
     "DISABLE_PANELS": [
