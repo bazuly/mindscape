@@ -128,7 +128,7 @@ snowballstemmer==2.2.0
 social-auth-app-django==5.4.2
 social-auth-core==4.5.4
 Sphinx==7.4.7
-sphinx-autobuild==2024.9.3
+sphinx-autobuild==2024.9.19
 sphinxcontrib-applehelp==2.0.0
 sphinxcontrib-devhelp==2.0.0
 sphinxcontrib-htmlhelp==2.1.0
