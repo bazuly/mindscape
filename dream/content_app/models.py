@@ -11,6 +11,7 @@ class NewsUpdateModel(models.Model):
     title = models.CharField(max_length=255)
     content = RichTextUploadingField()
     image = models.ImageField(upload_to=upload_to, null=True, blank=True)
+    publish_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.title
