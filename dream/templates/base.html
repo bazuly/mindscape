@@ -73,7 +73,13 @@
             <a class="nav-link" href="{% url 'home' %}">Home <span class="visually-hidden">(current)</span></a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'about' %}">About</a>
+            <a class="nav-link" href="{% url 'content_app:about_view' %}">About</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'content_app:faq_view' %}">F.A.Q</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'content_app:news_update_view' %}">News</a>
           </li>
           {% if request.user.is_authenticated %}
           <li class="nav-item">

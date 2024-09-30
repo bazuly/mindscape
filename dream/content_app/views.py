@@ -10,7 +10,7 @@ def news_update_view(request):
     context = {
         'news_data': paginate_news_data
     }
-    return render(request, 'templates/pages/news.html', context)
+    return render(request, 'pages/news.html', context)
 
 
 def faq_view(request):
@@ -19,7 +19,7 @@ def faq_view(request):
     context = {
         'faq_data': faq_paginate_data
     }
-    return render(request, 'templates/pages/faq.html', context)
+    return render(request, 'pages/faq.html', context)
 
 
 def about_view(request):
@@ -28,5 +28,5 @@ def about_view(request):
     context = {
         'paginate_about_data': paginate_about_data
     }
-    return render(request, 'templates/pages/about.html', context)
+    return render(request, 'pages/about.html', context)
 
