@@ -1,3 +1,40 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
 
+{% block title %}
+About Us
+{% endblock title %}
 
+{% block content %}
+  <h1>About Us</h1>
+  <div class="about-section">
+    {% if paginate_about_data %}
+      <ul>
+        {% for about in paginate_about_data %}
+          <li>
+            <h2>{{ about.title }}</h2>
+
+            {# Если у страницы есть изображение, отображаем его #}
+            <div>
+              {{ about.image|safe }}
+            </div>
+
+            <p>{{ about.content|safe }}</p>
+          </li>
+        {% endfor %}
+      </ul>
+
+      {# Пагинация #}
+      <div class="pagination">
+        {% if paginate_about_data.has_previous %}
+          <a href="?page={{ paginate_about_data.previous_page_number }}">Previous</a>
+        {% endif %}
+        <span>Page {{ paginate_about_data.number }} of {{ paginate_about_data.paginator.num_pages }}</span>
+        {% if paginate_about_data.has_next %}
+          <a href="?page={{ paginate_about_data.next_page_number }}">Next</a>
+        {% endif %}
+      </div>
+    {% else %}
+      <p>No about information available at the moment.</p>
+    {% endif %}
+  </div>
+{% endblock content %}

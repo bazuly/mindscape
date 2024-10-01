@@ -1,1 +1,34 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
+
+{% block title %}
+FAQ
+{% endblock title %}
+
+{% block content %}
+  <h1>Frequently Asked Questions</h1>
+  <div class="faq-list">
+    {% if faq_data %}
+      <ul>
+        {% for faq in faq_data %}
+          <li>
+            <h3>{{ faq.question }}</h3>
+            <p>{{ faq.body|safe }}</p>
+          </li>
+        {% endfor %}
+      </ul>
+
+      {# Пагинация #}
+      <div class="pagination">
+        {% if faq_data.has_previous %}
+          <a href="?page={{ faq_data.previous_page_number }}">Previous</a>
+        {% endif %}
+        <span>Page {{ faq_data.number }} of {{ faq_data.paginator.num_pages }}</span>
+        {% if faq_data.has_next %}
+          <a href="?page={{ faq_data.next_page_number }}">Next</a>
+        {% endif %}
+      </div>
+    {% else %}
+      <p>No FAQ data available at the moment.</p>
+    {% endif %}
+  </div>
+{% endblock content %}

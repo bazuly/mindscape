@@ -19,8 +19,7 @@ class NewsUpdateModel(models.Model):
 
 class AboutModel(models.Model):
     title = models.CharField(max_length=255)
-    content = models.TextField()
-    image = RichTextUploadingField()
+    content = RichTextUploadingField()
 
     def __str__(self):
         return self.title
