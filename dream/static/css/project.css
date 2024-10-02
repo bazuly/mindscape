@@ -12,10 +12,14 @@
 
 /* Темная тема */
 body {
-  background-image: url('/static/images/background/back.gif');
+  background-image: url('/static/images/background/back_optimized.gif');
   background-size: cover;
   background-position: center center;
   background-attachment: fixed;
+}
+
+body.loaded {
+  background-image:  url('/static/images/background/back_photo.jpg');
 }
 
 .nav-link {

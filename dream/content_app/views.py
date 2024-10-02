@@ -29,4 +29,3 @@ def about_view(request):
         'paginate_about_data': paginate_about_data
     }
     return render(request, 'pages/about.html', context)
-

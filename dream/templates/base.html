@@ -51,8 +51,18 @@
 
   <!-- place project specific Javascript in this file -->
 
-
   <script defer src="{% static 'js/project.js' %}"></script>
+
+  <script>
+    // Асинхронная загрузка GIF-фона
+    window.addEventListener('load', function() {
+      const img = new Image();
+      img.src = '/static/images/background/back.gif';
+      img.onload = function() {
+        document.body.classList.add('loaded');
+      };
+    });
+  </script>
 
   {% endblock javascript %}
 </head>
