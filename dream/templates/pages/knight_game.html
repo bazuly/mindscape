@@ -1,0 +1,189 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Archer game</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        canvas {
+            display: block;
+            background-color: #c4f4ff;
+            border: 1px solid black;
+            margin: 0 auto;
+        }
+
+        #score {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            font-size: 24px;
+            color: black;
+        }
+    </style>
+</head>
+<body>
+
+<h1 id="score">Score: 0</h1>
+<canvas id="gameCanvas" width="800" height="400"></canvas>
+
+<script>
+    const canvas = document.getElementById('gameCanvas');
+    const ctx = canvas.getContext('2d');
+
+    let score = 0;
+    let monsterInterval = 2000;
+    let monsterSpawner;
+    let knight = {
+        x: 50,
+        y: 175,
+        width: 50,
+        height: 50,
+        speed: 25
+    };
+
+    let bullets = [];
+    let monsters = [];
+    let monsterSpeed = 3;
+
+    function drawKnight() {
+        ctx.fillStyle = 'blue';
+        ctx.fillRect(knight.x, knight.y, knight.width, knight.height);
+    }
+
+    function drawMonster(monster) {
+        ctx.fillStyle = 'red';
+        ctx.fillRect(monster.x, monster.y, monster.width, monster.height);
+    }
+
+    function drawBullet(bullet) {
+        ctx.fillStyle = 'black';
+        ctx.fillRect(bullet.x, bullet.y, bullet.width, bullet.height);
+    }
+
+    function updateMonsterInterval() {
+        if (score > 10) {
+          monsterInterval = 1000;
+        } else {
+          monsterInterval = 2000;
+        }
+    }
+
+    function spawnMonster() {
+        let monster = {
+            x: canvas.width,
+            y: Math.random() * (canvas.height - 50),
+            width: 50,
+            height: 50
+        };
+        monsters.push(monster);
+    }
+
+    function moveMonsters() {
+        monsters.forEach((monster, index) => {
+            monster.x -= monsterSpeed;
+            if (monster.x + monster.width < 0) {
+                monsters.splice(index, 1);
+                resetGame();
+            }
+            if (score > 10) {
+              monsterSpeed = 4.5
+            }
+        });
+    }
+
+    function moveBullets() {
+        bullets.forEach((bullet, index) => {
+            bullet.x += bullet.speed;
+            if (bullet.x > canvas.width) {
+                bullets.splice(index, 1);
+            }
+        });
+    }
+
+    function handleCollisions() {
+        bullets.forEach((bullet, bulletIndex) => {
+            monsters.forEach((monster, monsterIndex) => {
+                if (bullet.x < monster.x + monster.width &&
+                    bullet.x + bullet.width > monster.x &&
+                    bullet.y < monster.y + monster.height &&
+                    bullet.y + bullet.height > monster.y) {
+                    monsters.splice(monsterIndex, 1); // Уничтожаем монстра
+                    bullets.splice(bulletIndex, 1); // Уничтожаем пулю
+                    score++;
+                }
+            });
+        });
+
+        monsters.forEach(monster => {
+            if (knight.x < monster.x + monster.width &&
+                knight.x + knight.width > monster.x &&
+                knight.y < monster.y + monster.height &&
+                knight.y + knight.height > monster.y) {
+                resetGame();
+            }
+        });
+    }
+
+    function shoot() {
+        let bullet = {
+            x: knight.x + knight.width,
+            y: knight.y + knight.height / 2 - 5,
+            width: 10,
+            height: 5,
+            speed: 7
+        };
+        bullets.push(bullet);
+    }
+
+    function resetGame() {
+        score = 0;
+        monsters = [];
+        bullets = [];
+        knight.y = 175;
+        monsterSpeed = 3;
+    }
+
+    function update() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        drawKnight();
+        bullets.forEach(drawBullet);
+        monsters.forEach(drawMonster);
+        moveBullets();
+        moveMonsters();
+        handleCollisions();
+
+        document.getElementById('score').textContent = `Score: ${score}`;
+    }
+
+    // Обработчики движения рыцаря
+document.addEventListener('keydown', function(event) {
+    if (event.code === 'ArrowUp' || event.code === 'KeyW') {
+        knight.y = Math.max(knight.y - knight.speed, 0);
+    } else if (event.code === 'ArrowDown' || event.code === 'KeyS') {
+        knight.y = Math.min(knight.y + knight.speed, canvas.height - knight.height);
+    } else if (event.code === 'ArrowRight' || event.code === 'KeyD') {
+        knight.x = Math.min(knight.x + knight.speed, canvas.width - knight.width);
+    } else if (event.code === 'ArrowLeft' || event.code === 'KeyA') {
+        knight.x = Math.max(knight.x - knight.speed, 0);
+    } else if (event.code === 'Space') {
+        shoot();
+    }
+});
+
+    setInterval(update, 1000 / 60); // 60 FPS
+    setInterval(spawnMonster, monsterInterval);
+</script>
+
+{% endblock %}
+</body>
+</html>

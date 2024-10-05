@@ -57,7 +57,7 @@
     // Асинхронная загрузка GIF-фона
     window.addEventListener('load', function() {
       const img = new Image();
-      img.src = '/static/images/background/back.gif';
+      img.src = '/static/images/background/back_optimized.gif';
       img.onload = function() {
         document.body.classList.add('loaded');
       };
@@ -93,6 +93,9 @@
           </li>
           <li class="nav-item">
             <a class="nav-link" href="{% url 'content_app:news_update_view' %}">News</a>
+          </li>
+                    <li class="nav-item">
+            <a class="nav-link" href="{% url 'game_app:game_app' %}">Time to wait</a>
           </li>
           {% if request.user.is_authenticated %}
           <li class="nav-item">

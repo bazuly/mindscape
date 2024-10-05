@@ -19,6 +19,8 @@ urlpatterns = [
     path(settings.ADMIN_URL, admin.site.urls),
     # content app urls
     path("content/", include("dream.content_app.urls", namespace="content_app")),
+    # game app urls
+    path("game/", include("dream.game_app.urls", namespace="game_app")),
     # User management
     path("users/", include("dream.users.urls", namespace="users")),
     path("accounts/", include("allauth.urls")),
@@ -56,4 +58,5 @@ if settings.DEBUG:
     if "debug_toolbar" in settings.INSTALLED_APPS:
         import debug_toolbar
 
-        urlpatterns = [path("__debug__/", include(debug_toolbar.urls))] + urlpatterns
+        urlpatterns = [
+            path("__debug__/", include(debug_toolbar.urls))] + urlpatterns
