@@ -8,20 +8,39 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Archer game</title>
     <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            margin: 0;
-            padding: 0;
-            overflow: hidden;
+        /* Применение PixelArt шрифта */
+        .navbar-nav .nav-link {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 14px;
+            margin-right: 15px;
         }
 
-        canvas {
+        /* Темная тема */
+        body {
+            background-image: url('/static/images/background/back_optimized.gif');
+            background-size: cover;
+            background-position: center center;
+            background-attachment: fixed;
+        }
+
+        /* Контейнер для таймера */
+        #timer-container {
+            text-align: center;
+            margin: 20px;
+            color: white;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 24px;
+        }
+
+        /* Стили для игры */
+        #gameCanvas {
             display: block;
             background-color: #c4f4ff;
             border: 1px solid black;
-            margin: 0 auto;
+            margin: 20px auto;
         }
 
+        /* Счетчик игры */
         #score {
             position: absolute;
             top: 10px;
@@ -33,13 +52,44 @@
 </head>
 <body>
 
+<!-- Таймер обратного отсчета -->
+<div id="timer-container">
+    <h2>До выхода Mindscape осталось: <span id="countdown"></span></h2>
+</div>
+
+<!-- Счет и холст игры -->
 <h1 id="score">Score: 0</h1>
 <canvas id="gameCanvas" width="800" height="400"></canvas>
 
 <script>
+    // Указываем дату выхода основной игры (например, через 10 часов)
+    let releaseDate = new Date();
+    releaseDate.setHours(releaseDate.getHours() + 10); // Прибавляем 10 часов
+
+    // Обновление таймера каждую секунду
+    function updateCountdown() {
+        const now = new Date().getTime();
+        const timeLeft = releaseDate - now;
+
+        const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+
+        // Выводим оставшееся время
+        document.getElementById("countdown").textContent = `${hours}h ${minutes}m ${seconds}s`;
+
+        // Если время истекло, выводим сообщение
+        if (timeLeft < 0) {
+            clearInterval(countdownInterval);
+            document.getElementById("countdown").textContent = "Game Released!";
+        }
+    }
+
+    const countdownInterval = setInterval(updateCountdown, 1000); // Обновляем каждую секунду
+
+    // Инициализация мини-игры
     const canvas = document.getElementById('gameCanvas');
     const ctx = canvas.getContext('2d');
-
     let score = 0;
     let monsterInterval = 2000;
     let monsterSpawner;
@@ -72,9 +122,9 @@
 
     function updateMonsterInterval() {
         if (score > 10) {
-          monsterInterval = 1000;
+            monsterInterval = 1000;
         } else {
-          monsterInterval = 2000;
+            monsterInterval = 2000;
         }
     }
 
@@ -96,7 +146,7 @@
                 resetGame();
             }
             if (score > 10) {
-              monsterSpeed = 4.5
+                monsterSpeed = 4.5;
             }
         });
     }
@@ -166,19 +216,19 @@
     }
 
     // Обработчики движения рыцаря
-document.addEventListener('keydown', function(event) {
-    if (event.code === 'ArrowUp' || event.code === 'KeyW') {
-        knight.y = Math.max(knight.y - knight.speed, 0);
-    } else if (event.code === 'ArrowDown' || event.code === 'KeyS') {
-        knight.y = Math.min(knight.y + knight.speed, canvas.height - knight.height);
-    } else if (event.code === 'ArrowRight' || event.code === 'KeyD') {
-        knight.x = Math.min(knight.x + knight.speed, canvas.width - knight.width);
-    } else if (event.code === 'ArrowLeft' || event.code === 'KeyA') {
-        knight.x = Math.max(knight.x - knight.speed, 0);
-    } else if (event.code === 'Space') {
-        shoot();
-    }
-});
+    document.addEventListener('keydown', function(event) {
+        if (event.code === 'ArrowUp' || event.code === 'KeyW') {
+            knight.y = Math.max(knight.y - knight.speed, 0);
+        } else if (event.code === 'ArrowDown' || event.code === 'KeyS') {
+            knight.y = Math.min(knight.y + knight.speed, canvas.height - knight.height);
+        } else if (event.code === 'ArrowRight' || event.code === 'KeyD') {
+            knight.x = Math.min(knight.x + knight.speed, canvas.width - knight.width);
+        } else if (event.code === 'ArrowLeft' || event.code === 'KeyA') {
+            knight.x = Math.max(knight.x - knight.speed, 0);
+        } else if (event.code === 'Space') {
+            shoot();
+        }
+    });
 
     setInterval(update, 1000 / 60); // 60 FPS
     setInterval(spawnMonster, monsterInterval);
