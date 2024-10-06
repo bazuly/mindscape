@@ -1,3 +1,106 @@
 {% extends "base.html" %}
 
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loading Screen</title>
+    <style>
+        /* Основной стиль для страницы */
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: 'Press Start 2P', cursive;
+            color: #00ff00;
+            font-size: 18px;
+        }
 
+        /* Контейнер для всей анимации */
+        .loading-container {
+            text-align: center;
+        }
+
+        /* Анимация текста "Loading..." */
+        .loading-text {
+            margin-bottom: 20px;
+            letter-spacing: 5px;
+            animation: blink 1s infinite;
+        }
+
+        /* Анимация для мигания "Loading..." */
+        @keyframes blink {
+            0% { opacity: 1; }
+            50% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
+        /* Прогресс-бар (контейнер) */
+        .progress-bar {
+            width: 300px;
+            height: 20px;
+            border: 2px solid #c0bdbd;
+            margin: 0 auto;
+            position: relative;
+            border-radius: 0;
+        }
+
+        /* Заполняемая часть прогресс-бара */
+        .progress {
+            background-color: #c0bdbd;
+            height: 100%;
+            width: 0;
+            transition: width 0.5s ease;
+            border-radius: 0;
+        }
+
+        /* В конце скрыть экран загрузки */
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="loading-container" id="loadingScreen">
+        <div class="loading-text">Loading...</div>
+        <div class="progress-bar">
+            <div class="progress" id="progressBar"></div>
+        </div>
+    </div>
+
+    <script>
+        // Таймер для имитации загрузки
+        let progress = 0;
+        const progressBar = document.getElementById('progressBar');
+        const loadingScreen = document.getElementById('loadingScreen');
+
+        function simulateLoading() {
+            const interval = setInterval(function() {
+                progress += 30; // Увеличиваем на 10% каждые 0.5 секунды
+                progressBar.style.width = progress + '%';
+
+                if (progress >= 100) {
+                    clearInterval(interval);
+                    // По завершении загрузки скрываем экран загрузки
+                    setTimeout(() => {
+                        loadingScreen.classList.add('hidden');
+                        // Здесь можно добавить переход на основную страницу или показать основной контент
+                    }, 500); // Ждем еще 0.5 секунды перед скрытием
+                }
+            }, 500); // Интервал для увеличения прогресса каждые 0.5 секунды
+        }
+
+        // Запускаем имитацию загрузки при загрузке страницы
+        window.onload = simulateLoading;
+    </script>
+
+</body>
+{% endblock %}
+</html>
