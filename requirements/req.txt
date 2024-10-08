@@ -13,7 +13,7 @@ click-repl==0.3.0
 crispy-bootstrap5==2024.2
 cron-descriptor==1.4.5
 cryptography==43.0.1
-Django==5.0.9
+Django==5.1.2
 django-allauth==64.2.1
 django-celery-beat==2.7.0
 django-ckeditor==6.7.1
