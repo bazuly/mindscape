@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% comment %} {% extends "base.html" %} {% endcomment %}
 
 {% block content %}
 <!DOCTYPE html>
@@ -69,7 +69,13 @@
 <body>
 
     <div class="loading-container" id="loadingScreen">
-        <div class="loading-text">Loading...</div>
+        <!-- Контейнер для текста и гифки -->
+        <div class="loading-text-container">
+            <div class="loading-text">Loading...</div>
+            <!-- Гифка -->
+            <img src="static/gif/skeleton.gif" alt="Loading animation" width="150" height="150">
+        </div>
+        <!-- Прогресс-бар -->
         <div class="progress-bar">
             <div class="progress" id="progressBar"></div>
         </div>
@@ -83,7 +89,7 @@
 
         function simulateLoading() {
             const interval = setInterval(function() {
-                progress += 30; // Увеличиваем на 10% каждые 0.5 секунды
+                progress += 20;
                 progressBar.style.width = progress + '%';
 
                 if (progress >= 100) {
@@ -91,10 +97,10 @@
                     // По завершении загрузки скрываем экран загрузки
                     setTimeout(() => {
                         loadingScreen.classList.add('hidden');
-                        // Здесь можно добавить переход на основную страницу или показать основной контент
-                    }, 500); // Ждем еще 0.5 секунды перед скрытием
+                        window.location.href = "{% url 'content_app:about_view' %}"
+                    }, 500);
                 }
-            }, 500); // Интервал для увеличения прогресса каждые 0.5 секунды
+            }, 500);
         }
 
         // Запускаем имитацию загрузки при загрузке страницы
