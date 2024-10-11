@@ -15,7 +15,7 @@
             margin-right: 15px;
         }
 
-        /* Темная тема */
+        /* Темная тема */ы
         body {
             background-image: url('/static/images/background/back_optimized.gif');
             background-size: cover;
@@ -62,7 +62,6 @@
 <canvas id="gameCanvas" width="800" height="400"></canvas>
 
 <script>
-    // Указываем дату выхода основной игры (например, через 10 часов)
     let releaseDate = new Date();
     releaseDate.setHours(releaseDate.getHours() + 10); // Прибавляем 10 часов
 
@@ -90,6 +89,19 @@
     let score = 0;
     let monsterInterval = 2000;
     let monsterSpawner;
+    let canShoot = true;
+
+    // background image
+    let backgroundImage = new Image();
+    backgroundImage.src = '/static/images/background/background_game.jpg';
+
+    // characters images
+    let knightImage = new Image();
+    knightImage.src = '/static/gif/catKnight.gif';
+
+    let skeletonEnemyImage = new Image ();
+    skeletonEnemyImage.src = '/static/gif/skeleton_enemy_game.gif';
+
     let knight = {
         x: 50,
         y: 175,
@@ -98,23 +110,32 @@
         speed: 25
     };
 
+
     let bullets = [];
     let monsters = [];
     let monsterSpeed = 3;
 
+    function drawBackground() {
+    // Рисуем фон на весь холст
+    ctx.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
+    }
+
     function drawKnight() {
-        ctx.fillStyle = 'blue';
-        ctx.fillRect(knight.x, knight.y, knight.width, knight.height);
+        ctx.drawImage(knightImage, knight.x, knight.y, knight.width, knight.height);
     }
 
     function drawMonster(monster) {
-        ctx.fillStyle = 'red';
-        ctx.fillRect(monster.x, monster.y, monster.width, monster.height);
+        let scaleFactor = 1.5;  // Коэффициент масштабирования, например, 1.5 для увеличения на 50%
+
+        let monsterWidth = monster.width * scaleFactor;   // Увеличиваем ширину
+        let monsterHeight = monster.height * scaleFactor;
+        ctx.drawImage(skeletonEnemyImage, monster.x, monster.y, monsterWidth, monsterHeight);
     }
 
     function drawBullet(bullet) {
-        ctx.fillStyle = 'black';
-        ctx.fillRect(bullet.x, bullet.y, bullet.width, bullet.height);
+        ctx.font = '16px "Press Start 2P"';
+        ctx.fillStyle = 'white';
+        ctx.fillText('meow', bullet.x, bullet.y);
     }
 
     function updateMonsterInterval() {
@@ -182,14 +203,17 @@
     }
 
     function shoot() {
+        if (!canShoot) return;
         let bullet = {
             x: knight.x + knight.width,
             y: knight.y + knight.height / 2 - 5,
             width: 10,
-            height: 5,
+            height: 10,
             speed: 7
         };
         bullets.push(bullet);
+        canShoot = false;
+        setTimeout(() => { canShoot = true; }, 700);
     }
 
     function resetGame() {
@@ -202,6 +226,8 @@
 
     function update() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        drawBackground();
         drawKnight();
         bullets.forEach(drawBullet);
         monsters.forEach(drawMonster);
