@@ -97,7 +97,7 @@
 
     // characters images
     let knightImage = new Image();
-    knightImage.src = '/static/gif/catKnight.gif';
+    knightImage.src = '/static/gif/cat.jpg';
 
     let skeletonEnemyImage = new Image ();
     skeletonEnemyImage.src = '/static/gif/skeleton_enemy_game.gif';
@@ -121,13 +121,17 @@
     }
 
     function drawKnight() {
-        ctx.drawImage(knightImage, knight.x, knight.y, knight.width, knight.height);
+        let scaleFactor = 1.7;
+        let knightWidth = knight.width * scaleFactor;
+        let knightHeight = knight.height * scaleFactor;
+
+        ctx.drawImage(knightImage, knight.x, knight.y, knightWidth, knightHeight);
     }
 
     function drawMonster(monster) {
-        let scaleFactor = 1.5;  // Коэффициент масштабирования, например, 1.5 для увеличения на 50%
+        let scaleFactor = 1.7;
 
-        let monsterWidth = monster.width * scaleFactor;   // Увеличиваем ширину
+        let monsterWidth = monster.width * scaleFactor;
         let monsterHeight = monster.height * scaleFactor;
         ctx.drawImage(skeletonEnemyImage, monster.x, monster.y, monsterWidth, monsterHeight);
     }
